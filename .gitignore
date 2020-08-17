@@ -1,10 +1,7 @@
 # Removing PyPi-specific packages
 dist/*
-caer.egg-info/*
+caer_models.egg-info/*
 build/*
 __pycache__/*
 *.pyc
 .vscode/*
-
-pip install jasmcaer==0.0.8
-pip install jasmcaer==0.0.8
