@@ -1,6 +1,6 @@
 Metadata-Version: 1.1
 Name: caer-models
-Version: 0.0.1
+Version: 0.0.2
 Summary: A Python library including support for Deep Learning models built using the Keras framework.
 Home-page: https://github.com/jasmcaus/caer-models
 Author: Jason Dsouza

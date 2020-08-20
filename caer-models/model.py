@@ -14,6 +14,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 from tensorflow.keras import backend
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Flatten, Dropout, Activation, Conv2D, MaxPooling2D
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 
 def saveModel(model, base_name, learn_rate ,attempt):
@@ -26,7 +27,6 @@ def imageDataGenerator():
 
     Returns train_datagen, val_datagen
     """
-    from tensorflow.keras.preprocessing.image import ImageDataGenerator
     train_datagen = ImageDataGenerator(rotation_range=40, 
                                         width_shift_range=.2,
                                         height_shift_range=.2,
@@ -39,10 +39,10 @@ def imageDataGenerator():
 
     return train_datagen, val_datagen
     
-def createDefaultModel(img_size=224, optimizer='adam', loss='binary_crossentropy'):
+def createDefaultModel(IMG_SIZE=224, optimizer='adam', loss='binary_crossentropy'):
     try:
         model = Sequential()
-        model.add(Conv2D(32, (3,3), activation='relu', input_shape=(img_size, img_size, 1)))
+        model.add(Conv2D(32, (3,3), activation='relu', input_shape=(IMG_SIZE, IMG_SIZE, 1)))
         model.add(MaxPooling2D(pool_size=(2,2)))
 
         model.add(Conv2D(64, (3,3),activation='relu'))
@@ -53,9 +53,10 @@ def createDefaultModel(img_size=224, optimizer='adam', loss='binary_crossentropy
 
         model.add(Conv2D(128, (3,3),activation='relu'))
         model.add(MaxPooling2D(pool_size=(2,2)))
+        
         # Converts the 4D output of the Convolutional blocks to a 2D feature which can be read by the Dense layer
         model.add(Flatten())
-        # model.add(Dropout(0.5))
+        model.add(Dropout(0.5))
         model.add(Dense(512, activation='relu'))
 
         # Output Layer
@@ -147,12 +148,13 @@ def VGG16(img_size=224, channels=1):
         model.add(Dense(4096,activation="relu"))
         model.add(Dense(4096,activation="relu"))
 
-        model.add(Dense(1), activate='sigmoid') # Softmax works too if multiple Dense nodes required
+        model.add(Dense(1), activation='sigmoid') # Softmax works too if multiple Dense nodes required
 
         return model
         
     except ModuleNotFoundError:
         print('[ERROR] The Tensorflow Python package needs to be installed')
+
 
 def testModel(model,categories):
     pass
