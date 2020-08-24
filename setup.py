@@ -5,8 +5,8 @@ DESCRIPTION = """A Python library including support for Deep Learning models bui
 LONG_DESCRIPTION = DESCRIPTION + """ This repository is actively being maintained. If there are any issues, kindly open a thread in the 'Issues' pane on the official Github repository. """
 
 setuptools.setup(
-    name="caer-models",
-    version="0.0.3",
+    name="kangeras",
+    version="0.0.1",
     author="Jason Dsouza",
     author_email="jasmcaus@gmail.com",
     description=DESCRIPTION,
