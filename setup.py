@@ -6,12 +6,12 @@ LONG_DESCRIPTION = DESCRIPTION + """ This repository is actively being maintaine
 
 setuptools.setup(
     name="kangeras",
-    version="0.0.1",
+    version="0.0.2",
     author="Jason Dsouza",
     author_email="jasmcaus@gmail.com",
     description=DESCRIPTION,
     long_description=LONG_DESCRIPTION,
-    url="https://github.com/jasmcaus/caer-models",
+    url="https://github.com/jasmcaus/kangeras",
     packages=setuptools.find_packages(),
     license='MIT',
     install_requires=['tensorflow'],
