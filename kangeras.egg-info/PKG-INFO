@@ -1,8 +1,8 @@
 Metadata-Version: 1.1
 Name: kangeras
-Version: 0.0.1
+Version: 0.0.3
 Summary: A Python library including support for Deep Learning models built using the Keras framework.
-Home-page: https://github.com/jasmcaus/caer-models
+Home-page: https://github.com/jasmcaus/kangeras
 Author: Jason Dsouza
 Author-email: jasmcaus@gmail.com
 License: MIT

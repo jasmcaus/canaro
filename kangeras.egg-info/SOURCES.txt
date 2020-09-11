@@ -2,7 +2,8 @@ README.md
 setup.cfg
 setup.py
 kangeras/__init__.py
-kangeras/model.py
+kangeras/models.py
+kangeras/train.py
 kangeras.egg-info/PKG-INFO
 kangeras.egg-info/SOURCES.txt
 kangeras.egg-info/dependency_links.txt
