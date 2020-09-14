@@ -6,7 +6,7 @@ LONG_DESCRIPTION = DESCRIPTION + """ This repository is actively being maintaine
 
 setuptools.setup(
     name="kangeras",
-    version="0.0.8",
+    version="0.1.1",
     author="Jason Dsouza",
     author_email="jasmcaus@gmail.com",
     description=DESCRIPTION,

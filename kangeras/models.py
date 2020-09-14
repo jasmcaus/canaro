@@ -14,31 +14,11 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 from tensorflow.keras import backend
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Flatten, Dropout, Activation, Conv2D, MaxPooling2D
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 
 def saveModel(model, base_name, learn_rate ,attempt):
     model.save_weights(f'{base_name}-{learn_rate}-{attempt}.h5')
     model.save(f'{base_name}_{attempt}.h5')
-
-def imageDataGenerator():
-    """
-    We are not adding a 'rescale' attribute because the data has already been normalized using the 'normalize' function of this class
-
-    Returns train_datagen, val_datagen
-    """
-    train_datagen = ImageDataGenerator(rotation_range=10, 
-                                        width_shift_range=.1,
-                                        height_shift_range=.1,
-                                        shear_range=.2,
-                                        zoom_range=.2,
-                                        horizontal_flip=True,
-                                        fill_mode='nearest')
-    # We do not augment the validation data
-    # val_datagen = ImageDataGenerator()
-
-    # return train_datagen, val_datagen
-    return train_datagen
     
 def createDefaultModel(IMG_SIZE=224, optimizer='adam', loss='binary_crossentropy'):
     try:

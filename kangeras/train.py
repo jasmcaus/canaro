@@ -3,6 +3,7 @@
 
 # Surpressing Tensorflow Warnings
 import os
+import sys
 import time
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
 # 0 = all messages are logged (default behavior)
@@ -11,7 +12,8 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 # 3 = INFO, WARNING, and ERROR messages are not printed
 
 # Importing the necessary packages
-from .models import ImageDataGenerator
+sys.path.append('..')
+from generators.imagedatagen import imageDataGenerator
 from keras.callbacks import LearningRateScheduler, ModelCheckpoint
 
 def train(model, X_train, y_train, X_val, y_val, batch_size=32, epochs=30, data_augmentation=True, datagen=None):
@@ -24,7 +26,7 @@ def train(model, X_train, y_train, X_val, y_val, batch_size=32, epochs=30, data_
     """
 
     if data_augmentation and datagen is None:
-        datagen = ImageDataGenerator()
+        datagen = imageDataGenerator()
 
     if data_augmentation:
         filepath = 'weights.{epoch:02d}-{val_loss:.2f}.hdf5'
