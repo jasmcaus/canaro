@@ -1,8 +1,8 @@
 # Author: Jason Dsouza
 # Github: http://www.github.com/jasmcaus
 
-from .model import createDefaultModel
-from .model import LeNet
-from .model import saveModel
-from .model import testModel
-from .model import imageDataGenerator
+from .models import createDefaultModel
+from .models import LeNet
+from .models import saveModel
+from .models import testModel
+from .models import ImageDataGenerator
