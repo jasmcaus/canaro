@@ -27,7 +27,7 @@ def imageDataGenerator():
 
     Returns train_datagen, val_datagen
     """
-    train_datagen = imageDataGenerator(rotation_range=10, 
+    train_datagen = ImageDataGenerator(rotation_range=10, 
                                         width_shift_range=.1,
                                         height_shift_range=.1,
                                         shear_range=.2,
