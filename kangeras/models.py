@@ -21,13 +21,13 @@ def saveModel(model, base_name, learn_rate ,attempt):
     model.save_weights(f'{base_name}-{learn_rate}-{attempt}.h5')
     model.save(f'{base_name}_{attempt}.h5')
 
-def ImageDataGenerator():
+def imageDataGenerator():
     """
     We are not adding a 'rescale' attribute because the data has already been normalized using the 'normalize' function of this class
 
     Returns train_datagen, val_datagen
     """
-    train_datagen = ImageDataGenerator(rotation_range=10, 
+    train_datagen = imageDataGenerator(rotation_range=10, 
                                         width_shift_range=.1,
                                         height_shift_range=.1,
                                         shear_range=.2,

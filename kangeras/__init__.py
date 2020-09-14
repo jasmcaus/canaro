@@ -6,4 +6,4 @@ from .models import LeNet
 from .models import VGG16
 from .models import saveModel
 from .models import testModel
-from .models import ImageDataGenerator
+from .models import imageDataGenerator
