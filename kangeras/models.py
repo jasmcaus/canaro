@@ -69,7 +69,7 @@ def createSimpsonsModel(IMG_SIZE=224, channels=1, loss='binary_crossentropy', de
 
         model.add(Flatten())
         model.add(Dropout(0.5))
-        model.add(Dense(1024), activation='relu')
+        model.add(Dense(1024, activation='relu'))
         
         # Output Layer
         model.add(Dense(len(characters), activation='softmax'))
