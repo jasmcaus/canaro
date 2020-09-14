@@ -13,7 +13,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 # Importing the necessary packages
 sys.path.append('..')
-from generators.imagedatagen import imageDataGenerator
+from .generators.imagedatagen import imageDataGenerator
 from keras.callbacks import LearningRateScheduler, ModelCheckpoint
 
 def train(model, X_train, y_train, X_val, y_val, batch_size=32, epochs=30, data_augmentation=True, datagen=None):
