@@ -1,6 +1,6 @@
 # Removing PyPi-specific packages
 dist/*
-caer_models.egg-info/*
+kangeras.egg-info/*
 build/*
 __pycache__/*
 *.pyc
