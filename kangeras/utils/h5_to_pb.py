@@ -11,17 +11,33 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 # Importing the necessary packages
 import tensorflow as tf
 
-def h5_to_pb(model, session=None, base_name, DIR):
+def h5_to_pb(model, session=None, base_name, DIR, learning_phase=None):
     """
         Converts a Keras .h5 model and converts to a Tensorflow '.pb' and '.pbtxt'model
+        There are some variables which are being computed in training phase for future use.
+
+        If you don't change to test phase, it will use current values.
+        For example dropout and batch normalization.
+
+        If you use it in training mode, then for mean and variance it will use current values,
+        but in test time it will use moving_mean and moving_variance.
+        :param learning_phase: 
+
         To import in OpenCV:
             model = cv.dnn.readNetFromTensorflow('name.pb')
     """
     output_names = [ouput.op.name for output in model.outputs]
     if DIR is None:
         DIR = './'
+
     if session is None:
         session = tf.keras.backend.get_session()
+        
+    if learning_phase is not None:
+        if learning_phase in [0,1]:
+            session.set_learning_phase(learning_phase)
+        else:
+            raise ValueError('[ERROR] Learning Phase should either be 0 (Testing) or 1 (Training', learning_phase)
 
     pbtxt = base_name + '.pbtxt'
     pb = base_name + '.pb'

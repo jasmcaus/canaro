@@ -3,7 +3,7 @@
 
 from setuptools import setup, find_packages
 
-VERSION = '0.1.9'
+VERSION = '0.2.0'
 
 DESCRIPTION = """A Python library including support for Deep Learning models built using the Keras framework."""
 
