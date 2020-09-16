@@ -1,6 +1,9 @@
 # Author: Jason Dsouza
 # Github: http://www.github.com/jasmcaus
 
+from .version import version as __version__
+from .version import author as __author__
+
 from .models import createDefaultModel
 from .models import createSimpsonsModel
 from .models import LeNet
