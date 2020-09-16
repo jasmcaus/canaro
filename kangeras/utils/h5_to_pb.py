@@ -21,7 +21,7 @@ def h5_to_pb(model, session=None, base_name, DIR, learning_phase=None):
 
         If you use it in training mode, then for mean and variance it will use current values,
         but in test time it will use moving_mean and moving_variance.
-        :param learning_phase: 
+        :param learning_phase: 0 (testing) or 1 (training)
 
         To import in OpenCV:
             model = cv.dnn.readNetFromTensorflow('name.pb')
@@ -32,7 +32,7 @@ def h5_to_pb(model, session=None, base_name, DIR, learning_phase=None):
 
     if session is None:
         session = tf.keras.backend.get_session()
-        
+
     if learning_phase is not None:
         if learning_phase in [0,1]:
             session.set_learning_phase(learning_phase)
