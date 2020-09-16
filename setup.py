@@ -1,6 +1,9 @@
+# Author: Jason Dsouza
+# Github: http://www.github.com/jasmcaus
+
 from setuptools import setup, find_packages
 
-VERSION = '0.1.5'
+VERSION = '0.1.6'
 
 DESCRIPTION = """A Python library including support for Deep Learning models built using the Keras framework."""
 
