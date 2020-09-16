@@ -15,7 +15,7 @@ from tensorflow.keras import backend
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Flatten, Dropout, Activation, Conv2D, MaxPooling2D
 
-def LeNet(img_size=224, channels=1, output_dim):
+def LeNet(img_size=224, channels=1, output_dim=1):
     """
     Adding some extra code for v0.0.14
     """

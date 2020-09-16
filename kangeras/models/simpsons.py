@@ -16,7 +16,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Flatten, Dropout, Activation, Conv2D, MaxPooling2D
 
 
-def createSimpsonsModel(IMG_SIZE=224, channels=1, output_dim, loss='binary_crossentropy', decay=None, learning_rate=None, momentum=None, nesterov=None):
+def createSimpsonsModel(IMG_SIZE=224, channels=1, output_dim=1, loss='binary_crossentropy', decay=None, learning_rate=None, momentum=None, nesterov=None):
     if type(output_dim) is not int:
         raise ValueError('[ERROR] Output dimensions need to be an integer')
     if type(channels) is not int:
