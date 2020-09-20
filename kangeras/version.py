@@ -3,8 +3,8 @@
 # Copyright 2020, Kangeras
 
 author = 'Jason Dsouza: http://www.github.com/jasmcaus'
-version = '0.2.0'
-full_version = '0.2.0'
+version = '0.2.3'
+full_version = '0.2.3'
 release = True
 if not release:
     version = full_version

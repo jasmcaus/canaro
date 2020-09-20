@@ -1,6 +1,7 @@
 # Author: Jason Dsouza
 # Github: http://www.github.com/jasmcaus
 
+import os
 # Surpressing Tensorflow Warnings
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
 # 0 = all messages are logged (default behavior)
@@ -11,7 +12,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 # Importing the necessary packages
 import tensorflow as tf
 
-def h5_to_pb(model, session=None, base_name, DIR, learning_phase=None):
+def h5_to_pb(model, base_name, DIR, session=None,learning_phase=None):
     """
         Converts a Keras .h5 model and converts to a Tensorflow '.pb' and '.pbtxt'model
         There are some variables which are being computed in training phase for future use.
@@ -31,13 +32,15 @@ def h5_to_pb(model, session=None, base_name, DIR, learning_phase=None):
         DIR = './'
 
     if session is None:
-        session = tf.keras.backend.get_session()
+        session = tf.compat.v1.keras.backend.get_session()
 
     if learning_phase is not None:
         if learning_phase in [0,1]:
             session.set_learning_phase(learning_phase)
         else:
-            raise ValueError('[ERROR] Learning Phase should either be 0 (Testing) or 1 (Training', learning_phase)
+            raise ValueError('[ERROR] Learning Phase should either be 0 (Testing) or 1 (Training)', learning_phase)
+    else:
+        session.set_learning_phase(0) # 0 (Testing); 1 (Training)
 
     pbtxt = base_name + '.pbtxt'
     pb = base_name + '.pb'
@@ -52,9 +55,9 @@ def write_frozen_graph(model, session, name, DIR=None):
             model = cv.dnn.readNetFromTensorflow('name.pb')
     """
     # Creating the frozen graph
-    frozen_graph = freeze_tf_session(model, k, output_names=output_names)
+    frozen_graph = freeze_tf_session(model, session, output_names=output_names)
     # Writing the graph
-    tf.train.write_graph(frozen_graph, DIR, pbtxt, as_text=False)
+    tf.train.write_graph(frozen_graph, DIR, pbtxt, as_text=True)
     tf.train.write_graph(frozen_graph, DIR, pb, as_text=False)
 
 def freeze_tf_session(model, session, keep_var_names=None, output_names=None, clear_devices=True):
