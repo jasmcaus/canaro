@@ -96,4 +96,4 @@ def model_io(model, inputs=True, outputs=True):
     if outputs:
         model_outputs = [ouput.op.name for output in model.outputs]
         print('Model Outputs:')
-        print(model_inputs)
+        print(model_outputs)
