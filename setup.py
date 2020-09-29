@@ -3,7 +3,7 @@
 
 from setuptools import setup, find_packages
 
-VERSION = '0.2.4'
+VERSION = '1.0.0'
 
 DESCRIPTION = """A Python library including support for Deep Learning models built using the Keras framework."""
 
@@ -26,7 +26,7 @@ if not release:
 # Repository on PyPi.org = https://pypi.org/project/caer/
 
 
-def write_version_py(filename='canaro/version.py'):
+def write_version_py(filename='canaro/_version.py'):
     print('[INFO] Writing version.py')
     TEXT = VERSION_PY_TEXT
     FULL_VERSION = VERSION

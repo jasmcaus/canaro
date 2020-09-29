@@ -1,5 +1,5 @@
 # Removing PyPi-specific packages
-kangeras.egg-info/*
+canaro.egg-info/*
 dist/*
 build/*
 __pycache__/*
