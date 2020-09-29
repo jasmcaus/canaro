@@ -1,4 +1,4 @@
-# canaro
+# Canaro
 A Python library including support for Deep Learning models built using the Keras framework
 
 ## Installation
