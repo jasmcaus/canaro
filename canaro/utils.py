@@ -575,3 +575,67 @@ def random_resize(image, bboxes=None, min_size=600, max_size=980,
     return return_dict
 
 
+def random_distortion(image, bboxes=None, brightness=None, contrast=None,
+                      hue=None, saturation=None, seed=None):
+    """Photometrically distorts an image.
+    This includes changing the brightness, contrast and hue.
+    Args:
+        image: Tensor with shape (H, W, 3)
+        brightness:
+            max_delta: non-negative float
+        contrast:
+            lower: non-negative float
+            upper: non-negative float
+        hue:
+            max_delta: float in [0, 0.5]
+        saturation:
+            lower: non-negative float
+            upper: non-negative float
+        seed: Seed to be used in randomizing functions.
+    Returns:
+        image: Distorted image with the same shape as the input image.
+        bboxes: Unchanged bboxes.
+    """
+    # Following Andrew Howard (2013). "Some improvements on deep convolutional
+    # neural network based image classification."
+    if brightness is not None:
+        if 'max_delta' not in brightness:
+            brightness.max_delta = 0.3
+        image = tf.image.random_brightness(
+            image, max_delta=brightness.max_delta, seed=seed
+        )
+    # Changing contrast, even with parameters close to 1, can lead to
+    # excessively distorted images. Use with care.
+    if contrast is not None:
+        if 'lower' not in contrast:
+            contrast.lower = 0.8
+        if 'upper' not in contrast:
+            contrast.upper = 1.2
+        image = tf.image.random_contrast(
+            image, lower=contrast.lower, upper=contrast.upper,
+            seed=seed
+        )
+    if hue is not None:
+        if 'max_delta' not in hue:
+            hue.max_delta = 0.2
+        image = tf.image.random_hue(
+            image, max_delta=hue.max_delta, seed=seed
+        )
+    if saturation is not None:
+        if 'lower' not in saturation:
+            saturation.lower = 0.8
+        if 'upper' not in saturation:
+            saturation.upper = 1.2
+        image = tf.image.random_saturation(
+            image, lower=saturation.lower, upper=saturation.upper,
+            seed=seed
+        )
+    if bboxes is None:
+        return_dict = {'image': image}
+    else:
+        return_dict = {
+            'image': image,
+            'bboxes': bboxes,
+        }
+    return return_dict
+
