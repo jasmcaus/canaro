@@ -1,6 +1,9 @@
 # Canaro
 A Python library including support for Deep Learning models built using the Keras framework
 
+[![Downloads](https://pepy.tech/badge/canaro)](https://pepy.tech/project/canaro)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/jasmcaus/canaro/blob/master/LICENSE)
+
 ## Installation
 To install the current release:
 
