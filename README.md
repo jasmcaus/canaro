@@ -7,5 +7,6 @@ To install the latest release:
 $ pip install canaro
 ```
 
-## Notes
-This repository is actively being maintained. If there are any issues, kindly open a thread in the `Issues` pane on this page. 
+## License
+
+Caer is released under the [MIT License](https://github.com/jasmcaus/caer/blob/master/LICENSE)
