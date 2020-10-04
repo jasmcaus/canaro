@@ -452,3 +452,79 @@ def flip_image(image, bboxes=None, left_right=True, up_down=False):
     return return_dict
 
 
+def random_patch(image, bboxes=None, min_height=600, min_width=600,
+                 seed=None):
+    """Gets a random patch from an image.
+    min_height and min_width values will be normalized if they are not possible
+    given the input image's shape. See also patch_image.
+    Args:
+        image: Tensor with shape (H, W, 3).
+        bboxes: Tensor with the ground-truth boxes. Shaped (total_boxes, 5).
+            The last element in each box is the category label.
+        min_height: Minimum height of the patch.
+        min_width: Minimum width of the patch.
+        seed: Seed to be used in randomizing functions.
+    Returns:
+        image: Tensor with shape (H', W', 3), with H' <= H and W' <= W. A
+            random patch of the input image.
+        bboxes: Tensor with shape (new_total_boxes, 5), where we keep
+            bboxes that have their center inside the patch, cropping
+            them to the patch boundaries. If we didn't get any bboxes, the
+            return dict will not have the 'bboxes' key defined.
+    """
+    # Start by normalizing the arguments.
+    # Our patch can't be larger than the original image.
+    im_shape = tf.shape(image)
+    min_height = tf.minimum(min_height, im_shape[0] - 1)
+    min_width = tf.minimum(min_width, im_shape[1] - 1)
+
+    # Now get the patch using tf.image.crop_to_bounding_box.
+    # See the documentation on tf.image.crop_to_bounding_box or the explanation
+    # in patch_image for the meaning of these variables.
+    offset_width = tf.random_uniform(
+        shape=[],
+        minval=0,
+        maxval=tf.subtract(
+            im_shape[1],
+            min_width
+        ),
+        dtype=tf.int32,
+        seed=seed
+    )
+    offset_height = tf.random_uniform(
+        shape=[],
+        minval=0,
+        maxval=tf.subtract(
+            im_shape[0],
+            min_height
+        ),
+        dtype=tf.int32,
+        seed=seed
+    )
+    target_width = tf.random_uniform(
+        shape=[],
+        minval=min_width,
+        maxval=tf.subtract(
+            im_shape[1],
+            offset_width
+        ),
+        dtype=tf.int32,
+        seed=seed
+    )
+    target_height = tf.random_uniform(
+        shape=[],
+        minval=min_height,
+        maxval=tf.subtract(
+            im_shape[0],
+            offset_height
+        ),
+        dtype=tf.int32,
+        seed=seed
+    )
+    return patch_image(
+        image, bboxes=bboxes,
+        offset_height=offset_height, offset_width=offset_width,
+        target_height=target_height, target_width=target_width
+    )
+
+
