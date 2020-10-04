@@ -528,3 +528,50 @@ def random_patch(image, bboxes=None, min_height=600, min_width=600,
     )
 
 
+def random_resize(image, bboxes=None, min_size=600, max_size=980,
+                  seed=None):
+    """Randomly resizes an image within limits.
+    Args:
+        image: Tensor with shape (H, W, 3)
+        bboxes: Tensor with the ground-truth boxes. Shaped (total_boxes, 5).
+            The last element in each box is the category label.
+        min_size: minimum side-size of the resized image.
+        max_size: maximum side-size of the resized image.
+        seed: Seed to be used in randomizing functions.
+    Returns:
+        image: Tensor with shape (H', W', 3), satisfying the following.
+            min_size <= H' <= H
+            min_size <= W' <= W
+        bboxes: Tensor with the same shape as the input bboxes, if we had them.
+            Else, this key will not be set.
+    """
+    im_shape = tf.to_float(tf.shape(image))
+    new_size = tf.random_uniform(
+        shape=[2],
+        minval=min_size,
+        maxval=max_size,
+        dtype=tf.int32,
+        seed=seed,
+    )
+    image = tf.image.resize_images(
+        image, new_size,
+        method=tf.image.ResizeMethod.BILINEAR
+    )
+    # Our returned dict needs to have a fixed size. So we can't
+    # return the scale_factor that resize_image returns.
+    if bboxes is not None:
+        new_size = tf.to_float(new_size)
+        bboxes = adjust_bboxes(
+            bboxes,
+            old_height=im_shape[0], old_width=im_shape[1],
+            new_height=new_size[0], new_width=new_size[1]
+        )
+        return_dict = {
+            'image': image,
+            'bboxes': bboxes
+        }
+    else:
+        return_dict = {'image': image}
+    return return_dict
+
+
