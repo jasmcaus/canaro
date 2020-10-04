@@ -1,8 +1,18 @@
 # Author: Jason Dsouza
 # Github: http://www.github.com/jasmcaus
 
-from ._version import version as __version__
-from ._version import author as __author__
+from ._meta import version as v
+from ._meta import author as a
+from ._meta import release as r
+from ._meta import contributors as c
+__author__ = a
+__version__ = v
+__contributors__ = c
+__license__ = 'MIT License'
+__copyright__ = 'Copyright (c) 2020 Jason Dsouza'
+version = v
+release = r
+contributors = c
 
 from .model import saveModel
 from .model import testModel
