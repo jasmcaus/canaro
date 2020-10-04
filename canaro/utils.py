@@ -203,3 +203,31 @@ def resize_image_fixed(image, new_height, new_width, bboxes=None):
     }
 
 
+def clip_boxes(bboxes, imshape):
+    """
+    Clips bounding boxes to image boundaries based on image shape.
+    Args:
+        bboxes: Tensor with shape (num_bboxes, 4)
+            where point order is x1, y1, x2, y2.
+        imshape: Tensor with shape (2, )
+            where the first value is height and the next is width.
+    Returns
+        Tensor with same shape as bboxes but making sure that none
+        of the bboxes are outside the image.
+    """
+    with tf.name_scope('BoundingBoxTransform/clip_bboxes'):
+        bboxes = tf.cast(bboxes, dtype=tf.float32)
+        imshape = tf.cast(imshape, dtype=tf.float32)
+
+        x1, y1, x2, y2 = tf.split(bboxes, 4, axis=1)
+        width = imshape[1]
+        height = imshape[0]
+        x1 = tf.maximum(tf.minimum(x1, width - 1.0), 0.0)
+        x2 = tf.maximum(tf.minimum(x2, width - 1.0), 0.0)
+
+        y1 = tf.maximum(tf.minimum(y1, height - 1.0), 0.0)
+        y2 = tf.maximum(tf.minimum(y2, height - 1.0), 0.0)
+
+        bboxes = tf.concat([x1, y1, x2, y2], axis=1)
+
+        return bboxes
