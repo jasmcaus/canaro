@@ -231,3 +231,170 @@ def clip_boxes(bboxes, imshape):
         bboxes = tf.concat([x1, y1, x2, y2], axis=1)
 
         return bboxes
+
+
+def patch_image(image, bboxes=None, offset_height=0, offset_width=0,
+                target_height=None, target_width=None):
+    """Gets a patch using tf.image.crop_to_bounding_box and adjusts bboxes
+    If patching would leave us with zero bboxes, we return the image and bboxes
+    unchanged.
+    Args:
+        image: Float32 Tensor with shape (H, W, 3).
+        bboxes: Tensor with the ground-truth boxes. Shaped (total_boxes, 5).
+            The last element in each box is the category label.
+        offset_height: Height of the upper-left corner of the patch with
+            respect to the original image. Non-negative.
+        offset_width: Width of the upper-left corner of the patch with respect
+            to the original image. Non-negative.
+        target_height: Height of the patch. If set to none, it will be the
+            maximum (tf.shape(image)[0] - offset_height - 1). Positive.
+        target_width: Width of the patch. If set to none, it will be the
+            maximum (tf.shape(image)[1] - offset_width - 1). Positive.
+    Returns:
+        image: Patch of the original image.
+        bboxes: Adjusted bboxes (only those whose centers are inside the
+            patch). The key isn't set if bboxes is None.
+    """
+    # TODO: make this function safe with respect to senseless inputs (i.e
+    # having an offset_height that's larger than tf.shape(image)[0], etc.)
+    # As of now we only use it inside random_patch, which already makes sure
+    # the arguments are legal.
+    im_shape = tf.shape(image)
+    if target_height is None:
+        target_height = (im_shape[0] - offset_height - 1)
+    if target_width is None:
+        target_width = (im_shape[1] - offset_width - 1)
+
+    new_image = tf.image.crop_to_bounding_box(
+        image,
+        offset_height=offset_height, offset_width=offset_width,
+        target_height=target_height, target_width=target_width
+    )
+    patch_shape = tf.shape(new_image)
+
+    # Return if we didn't have bboxes.
+    if bboxes is None:
+        # Resize the patch to the original image's size. This is to make sure
+        # we respect restrictions in image size in the models.
+        new_image_resized = tf.image.resize_images(
+            new_image, im_shape[:2],
+            method=tf.image.ResizeMethod.BILINEAR
+        )
+        return_dict = {'image': new_image_resized}
+        return return_dict
+
+    # Now we will remove all bboxes whose centers are not inside the cropped
+    # image.
+
+    # First get the x  and y coordinates of the center of each of the
+    # bboxes.
+    bboxes_center_x = tf.reduce_mean(
+        tf.concat(
+            [
+                # bboxes[:, 0] gets a Tensor with shape (20,).
+                # We do this to get a Tensor with shape (20, 1).
+                bboxes[:, 0:1],
+                bboxes[:, 2:3]
+            ],
+            axis=1
+        )
+    )
+    bboxes_center_y = tf.reduce_mean(
+        tf.concat(
+            [
+                bboxes[:, 1:2],
+                bboxes[:, 3:4]
+            ],
+            axis=1
+        ),
+        axis=1
+    )
+
+    # Now we get a boolean tensor holding for each of the bboxes' centers
+    # wheter they are inside the patch.
+    center_x_is_inside = tf.logical_and(
+        tf.greater(
+            bboxes_center_x,
+            offset_width
+        ),
+        tf.less(
+            bboxes_center_x,
+            tf.add(target_width, offset_width)
+        )
+    )
+    center_y_is_inside = tf.logical_and(
+        tf.greater(
+            bboxes_center_y,
+            offset_height
+        ),
+        tf.less(
+            bboxes_center_y,
+            tf.add(target_height, offset_height)
+        )
+    )
+    center_is_inside = tf.logical_and(
+        center_x_is_inside,
+        center_y_is_inside
+    )
+
+    # Now we mask the bboxes, removing all those whose centers are outside
+    # the patch.
+    masked_bboxes = tf.boolean_mask(bboxes, center_is_inside)
+    # We move the bboxes to the right place, clipping them if
+    # necessary.
+    new_bboxes_unclipped = tf.concat(
+        [
+            tf.subtract(masked_bboxes[:, 0:1], offset_width),
+            tf.subtract(masked_bboxes[:, 1:2], offset_height),
+            tf.subtract(masked_bboxes[:, 2:3], offset_width),
+            tf.subtract(masked_bboxes[:, 3:4], offset_height),
+        ],
+        axis=1,
+    )
+    # Finally, we clip the boxes and add back the labels.
+    new_bboxes = tf.concat(
+        [
+            tf.to_int32(
+                clip_boxes(
+                    new_bboxes_unclipped,
+                    imshape=patch_shape[:2]
+                ),
+            ),
+            masked_bboxes[:, 4:]
+        ],
+        axis=1
+    )
+    # Now resize the image to the original size and adjust bboxes accordingly
+    new_image_resized = tf.image.resize_images(
+        new_image, im_shape[:2],
+        method=tf.image.ResizeMethod.BILINEAR
+    )
+    # adjust_bboxes requires height and width values with dtype=float32
+    new_bboxes_resized = adjust_bboxes(
+        new_bboxes,
+        old_height=tf.to_float(patch_shape[0]),
+        old_width=tf.to_float(patch_shape[1]),
+        new_height=tf.to_float(im_shape[0]),
+        new_width=tf.to_float(im_shape[1])
+    )
+
+    # Finally, set up the return dict, but only update the image and bboxes if
+    # our patch has at least one bbox in it.
+    update_condition = tf.greater_equal(
+        tf.shape(new_bboxes_resized)[0],
+        1
+    )
+    return_dict = {}
+    return_dict['image'] = tf.cond(
+        update_condition,
+        lambda: new_image_resized,
+        lambda: image
+    )
+    return_dict['bboxes'] = tf.cond(
+        update_condition,
+        lambda: new_bboxes_resized,
+        lambda: bboxes
+    )
+    return return_dict
+
+
