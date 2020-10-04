@@ -5,7 +5,7 @@ import io
 
 # Repository on PyPi.org = https://pypi.org/project/canaro/
 
-VERSION = '1.0.0'
+VERSION = '1.0.1'
 
 NAME = 'canaro'
 AUTHOR = 'Jason Dsouza'
