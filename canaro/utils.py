@@ -92,3 +92,114 @@ def adjust_bboxes(bboxes, old_height, old_width, new_height, new_width):
     if bboxes is not None:
         return_dict['bboxes'] = bbox_adjusted
     return return_dict
+
+
+def resize_image(image, bboxes=None, min_size=None, max_size=None):
+    """
+    We need to resize image and (optionally) bounding boxes when the biggest
+    side dimension is bigger than `max_size` or when the smaller side is
+    smaller than `min_size`. If no max_size defined it won't scale down and if
+    no min_size defined it won't scale up.
+    Then, using the ratio we used, we need to properly scale the bounding
+    boxes.
+    Args:
+        image: Tensor with image of shape (H, W, 3).
+        bboxes: Optional Tensor with bounding boxes with shape (num_bboxes, 5).
+            where we have (x_min, y_min, x_max, y_max, label) for each one.
+        min_size: Min size of width or height.
+        max_size: Max size of width or height.
+    Returns:
+        Dictionary containing:
+            image: Tensor with scaled image.
+            bboxes: Tensor with scaled (using the same factor as the image)
+                bounding boxes with shape (num_bboxes, 5).
+            scale_factor: Scale factor used to modify the image (1.0 means no
+                change).
+    """
+    image_shape = tf.to_float(tf.shape(image))
+    height = image_shape[0]
+    width = image_shape[1]
+
+    if min_size is not None:
+        # We calculate the upscale factor, the rate we need to use to end up
+        # with an image with it's lowest dimension at least `image_min_size`.
+        # In case of being big enough the scale factor is 1. (no change)
+        min_size = tf.to_float(min_size)
+        min_dimension = tf.minimum(height, width)
+        upscale_factor = tf.maximum(min_size / min_dimension, 1.)
+    else:
+        upscale_factor = tf.constant(1.)
+
+    if max_size is not None:
+        # We do the same calculating the downscale factor, to end up with an
+        # image where the biggest dimension is less than `image_max_size`.
+        # When the image is small enough the scale factor is 1. (no change)
+        max_size = tf.to_float(max_size)
+        max_dimension = tf.maximum(height, width)
+        downscale_factor = tf.minimum(max_size / max_dimension, 1.)
+    else:
+        downscale_factor = tf.constant(1.)
+
+    scale_factor = upscale_factor * downscale_factor
+
+    # New size is calculate using the scale factor and rounding to int.
+    new_height = height * scale_factor
+    new_width = width * scale_factor
+
+    # Resize image using TensorFlow's own `resize_image` utility.
+    image = tf.image.resize_images(
+        image, tf.stack(tf.to_int32([new_height, new_width])),
+        method=tf.image.ResizeMethod.BILINEAR
+    )
+
+    if bboxes is not None:
+        bboxes = adjust_bboxes(
+            bboxes,
+            old_height=height, old_width=width,
+            new_height=new_height, new_width=new_width
+        )
+        return {
+            'image': image,
+            'bboxes': bboxes,
+            'scale_factor': scale_factor,
+        }
+
+    return {
+        'image': image,
+        'scale_factor': scale_factor,
+    }
+
+
+def resize_image_fixed(image, new_height, new_width, bboxes=None):
+
+    image_shape = tf.to_float(tf.shape(image))
+    height = image_shape[0]
+    width = image_shape[1]
+
+    scale_factor_height = new_height / height
+    scale_factor_width = new_width / width
+
+    # Resize image using TensorFlow's own `resize_image` utility.
+    image = tf.image.resize_images(
+        image, tf.stack(tf.to_int32([new_height, new_width])),
+        method=tf.image.ResizeMethod.BILINEAR
+    )
+
+    if bboxes is not None:
+        bboxes = adjust_bboxes(
+            bboxes,
+            old_height=height, old_width=width,
+            new_height=new_height, new_width=new_width
+        )
+        return {
+            'image': image,
+            'bboxes': bboxes,
+            'scale_factor': (scale_factor_height, scale_factor_width),
+        }
+
+    return {
+        'image': image,
+        'scale_factor': (scale_factor_height, scale_factor_width),
+    }
+
+
