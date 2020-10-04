@@ -16,12 +16,12 @@ URL = 'https://github.com/jasmcaus/canaro'
 DOWNLOAD_URL = 'https://pypi.org/project/canaro/'
 PACKAGES = find_packages()
 KEYWORDS = [
-    'computer vision', 'deep learning', 'toolkit', 'image processing', 'video processing','opencv', 'matplotlib'
+    'computer vision', 'deep learning', 'tensorflow', 'keras', 'convolutional neural networks', 'opencv', 'matplotlib'
 ]
 INSTALL_REQUIRES = [
-    'numpy', 'opencv-contrib-python', 'h5py'
+    'tensorflow'
 ]
-DESCRIPTION = """ A Computer Vision library in Python, built for Humans."""
+DESCRIPTION = """ A Python library including support for Deep Learning models built using the Keras framework."""
 LONG_DESCRIPTION = io.open('LONG_DESCRIPTION.md', encoding='utf-8').read()
 # CONTRIBUTORS = io.open('CONTRIBUTORS.md', encoding='utf-8').read()
 CLASSIFIERS = [
