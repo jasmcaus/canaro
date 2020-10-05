@@ -42,5 +42,5 @@ def createDefaultModel(IMG_SIZE=224, channels=1, output_dim=1, optimizer='adam',
     # Output Layer
     model.add(Dense(output_dim, activation='sigmoid'))
 
-    model.compile(loss=loss, optimizer=optimizer, metrics=['accuracy'])
+    # model.compile(loss=loss, optimizer=optimizer, metrics=['accuracy'])
     return model
