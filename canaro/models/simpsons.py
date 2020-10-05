@@ -1,4 +1,3 @@
-
 # # Author: Jason Dsouza
 # # Github: http://www.github.com/jasmcaus
 
@@ -17,6 +16,12 @@
 # from tensorflow.keras.layers import Dense, Flatten, Dropout, Activation, Conv2D, MaxPooling2D
 # from tensorflow.keras.optimizers import SGD
 
+# IMG_SIZE = (80,80)
+# LEARNING_RATE = 0.001
+# DECAY = 1e-6
+# MOMENTUM = .9
+# EPOCHS = 5
+# BATCH_SIZE = 32
 
 # def createSimpsonsModel(IMG_SIZE=(224,224), channels=1, output_dim=1, loss='binary_crossentropy', decay=None, learning_rate=None, momentum=None, nesterov=None):
 #     if type(output_dim) is not int:
@@ -78,18 +83,14 @@
 #     model.compile(loss=loss, optimizer=optimizer, metrics=['accuracy'])
 #     return model
 
-from tensorflow.keras.models import Sequential, Model
+
+from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Dense, Flatten, Conv2D, MaxPooling2D, Dropout, Input
 from tensorflow.keras.optimizers import SGD
 
-IMG_SIZE = (80,80)
-LEARNING_RATE = 0.001
-DECAY = 1e-6
-MOMENTUM = .9
-EPOCHS = 5
-BATCH_SIZE = 32
 
-def createSimpsonsModel(IMG_SIZE=(224,224), channels=1, output_dim=1, loss='binary_crossentropy', decay=None, learning_rate=None, momentum=None, nesterov=None):
+# def createSimpsonsModel(IMG_SIZE=(224,224), channels=1, output_dim=1, loss='binary_crossentropy', decay=None, learning_rate=None, momentum=None, nesterov=None):
+def createSimpsonsModel(IMG_SIZE=(224,224), channels=1, output_dim=1):
     w,h = IMG_SIZE[:2]
     input_shape = (w,h,channels)
     input = Input(input_shape)
@@ -118,6 +119,6 @@ def createSimpsonsModel(IMG_SIZE=(224,224), channels=1, output_dim=1, loss='bina
     
     model = Model(inputs=input, outputs=output)
 
-    optimizer = SGD(lr=LEARNING_RATE, decay=DECAY, momentum=MOMENTUM, nesterov=nesterov)
-    model.compile(loss=loss, optimizer=optimizer, metrics=['accuracy'])
+    # optimizer = SGD(lr=LEARNING_RATE, decay=DECAY, momentum=MOMENTUM, nesterov=nesterov)
+    # model.compile(loss=loss, optimizer=optimizer, metrics=['accuracy'])
     return model
