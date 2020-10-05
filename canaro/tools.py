@@ -43,7 +43,7 @@ def adjust_bboxes(bboxes, old_height, old_width, new_height, new_width):
     return tf.stack([x_min, y_min, x_max, y_max, label], axis=1)
 
 
-
+def expand(image, bboxes=None, fill=0, min_ratio=1, max_ratio=4, seed=None):
     """
     Increases the image size by adding large padding around the image
     Acts as a zoom out of the image, and when the image is later resized to
