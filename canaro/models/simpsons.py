@@ -14,9 +14,10 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 from tensorflow.keras import backend
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Flatten, Dropout, Activation, Conv2D, MaxPooling2D
+from tensorflow.keras.optimizers import SGD
 
 
-def createSimpsonsModel(IMG_SIZE=224, channels=1, output_dim=1, loss='binary_crossentropy', decay=None, learning_rate=None, momentum=None, nesterov=None):
+def createSimpsonsModel(IMG_SIZE=(224,224), channels=1, output_dim=1, loss='binary_crossentropy', decay=None, learning_rate=None, momentum=None, nesterov=None):
     if type(output_dim) is not int:
         raise ValueError('[ERROR] Output dimensions need to be an integer')
     if type(channels) is not int:
@@ -25,9 +26,11 @@ def createSimpsonsModel(IMG_SIZE=224, channels=1, output_dim=1, loss='binary_cro
     # If 'channels first', update the input_shape
     if backend.image_data_format() == 'channels_first':
         input_shape = (channels, img_size,img_size)
-
+        
+    w, h = IMG_SIZE[:2]
+    
     model = Sequential()
-    model.add(Conv2D(32, (3, 3), activation='relu', padding='same', input_shape=(IMG_SIZE,IMG_SIZE,channels)))
+    model.add(Conv2D(32, (3, 3), activation='relu', padding='same', input_shape=(w, h,channels)))
     model.add(Conv2D(32, (3, 3), activation='relu'))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Dropout(0.2))
