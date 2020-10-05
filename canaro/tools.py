@@ -77,7 +77,7 @@ def expand(image, bboxes=None, fill=0, min_ratio=1, max_ratio=4, seed=None):
                                 maxval=new_height-height, seed=seed)
     pad_bottom = new_height - height - pad_top
 
-    # TODO: use mean instead of 0 for filling the paddings
+    # use mean instead of 0 for filling the paddings
     paddings = tf.stack([tf.concat([pad_top, pad_bottom], axis=0),
                          tf.concat([pad_left, pad_right], axis=0),
                          tf.constant([0., 0.])])
@@ -221,6 +221,7 @@ def clip_boxes(bboxes, imshape):
         bboxes = tf.cast(bboxes, dtype=tf.float32)
         imshape = tf.cast(imshape, dtype=tf.float32)
 
+        #pylint:disable=redundant-keyword-arg
         x1, y1, x2, y2 = tf.split(bboxes, 4, axis=1)
         width = imshape[1]
         height = imshape[0]
@@ -257,7 +258,7 @@ def patch_image(image, bboxes=None, offset_height=0, offset_width=0,
         bboxes: Adjusted bboxes (only those whose centers are inside the
             patch). The key isn't set if bboxes is None.
     """
-    # TODO: make this function safe with respect to senseless inputs (i.e
+    # Make this function safe with respect to senseless inputs (i.e
     # having an offset_height that's larger than tf.shape(image)[0], etc.)
     # As of now we only use it inside random_patch, which already makes sure
     # the arguments are legal.
