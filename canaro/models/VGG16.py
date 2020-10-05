@@ -1,9 +1,8 @@
-# Author: Jason Dsouza
-# Github: http://www.github.com/jasmcaus
+# Copyright (c) 2020 Jason Dsouza <jasmcaus@gmail.com>
+# Protected under the MIT License (see LICENSE)
 
 # Surpressing Tensorflow Warnings
 import os
-import time
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
 # 0 = all messages are logged (default behavior)
 # 1 = INFO messages are not printed
