@@ -11,11 +11,11 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 # 3 = INFO, WARNING, and ERROR messages are not printed
 
 # Importing the necessary packages
-from tensorflow.keras import backend
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Flatten, Dropout, Activation, Conv2D, MaxPooling2D
+from tensorflow.keras.layers import Dense, Flatten, Dropout, Conv2D, MaxPooling2D
 
-def createDefaultModel(IMG_SIZE=224, channels=1, output_dim=1, optimizer='adam', loss='binary_crossentropy'):
+# def createDefaultModel(IMG_SIZE=224, channels=1, output_dim=1, optimizer='adam', loss='binary_crossentropy'):
+def createDefaultModel(IMG_SIZE=224, channels=1, output_dim=1):
     if type(output_dim) is not int:
         raise ValueError('[ERROR] Output dimensions need to be an integer')
     if type(channels) is not int:
