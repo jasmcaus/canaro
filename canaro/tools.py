@@ -639,6 +639,7 @@ def random_distortion(image, bboxes=None, brightness=None, contrast=None,
         }
     return return_dict
 
+
 def expand(image, bboxes=None, fill=0, min_ratio=1, max_ratio=4, seed=None):
     """
     Increases the image size by adding large padding around the image
