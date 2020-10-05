@@ -15,6 +15,7 @@ def saveModel(model, base_name, learn_rate ,attempt):
     model.save_weights(f'{base_name}-{learn_rate}-{attempt}.h5')
     model.save(f'{base_name}_{attempt}.h5')
 
+
 def testModel(model,classes):
     pass
     # X_test, y_test = preprocess(array) # y_test will be empty
