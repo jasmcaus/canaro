@@ -3,7 +3,6 @@
 
 # Surpressing Tensorflow Warnings
 import os
-import time
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
 # 0 = all messages are logged (default behavior)
 # 1 = INFO messages are not printed
