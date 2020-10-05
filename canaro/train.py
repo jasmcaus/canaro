@@ -4,7 +4,6 @@
 # Surpressing Tensorflow Warnings
 import os
 import sys
-import time
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
 # 0 = all messages are logged (default behavior)
 # 1 = INFO messages are not printed
@@ -14,7 +13,8 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 # Importing the necessary packages
 sys.path.append('..')
 from .generators.imagedatagen import imageDataGenerator
-from keras.callbacks import LearningRateScheduler, ModelCheckpoint
+from tensorflow.keras.callbacks import LearningRateScheduler, ModelCheckpoint
+
 
 def train(model, X_train, y_train, X_val, y_val, batch_size=32, epochs=30, data_augmentation=True, datagen=None):
     """
@@ -36,7 +36,7 @@ def train(model, X_train, y_train, X_val, y_val, batch_size=32, epochs=30, data_
                                     batch_size=batch_size),
                                     steps_per_epoch=X_train.shape[0] // batch_size,
                                     epochs=epochs,
-                                    validation_data=(X_test, y_test),
+                                    validation_data=(X_val, y_val),
                                     callbacks=callbacks_list)  
     else:
         history = model.fit(X_train, y_train,
@@ -46,6 +46,7 @@ def train(model, X_train, y_train, X_val, y_val, batch_size=32, epochs=30, data_
                             shuffle=True)
 
     return history
+
 
 def lr_schedule(epoch):
     lr = 0.01
