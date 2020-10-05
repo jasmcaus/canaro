@@ -24,6 +24,9 @@ KEYWORDS = [
 INSTALL_REQUIRES = [
     'tensorflow'
 ]
+EXTRAS_REQUIRE = {
+    'caer' : 'caer'
+}
 CLASSIFIERS = [
     'Development Status :: 3 - Alpha',
     'Intended Audience :: Developers',
@@ -69,7 +72,7 @@ def write_version(filename='canaro/_meta.py'):
 
     a = open(filename, 'w')
     try:
-        a.write(TEXT % {'author': AUTHOR,
+        a.write(TEXT % {'author': AUTHOR_LONG,
                         'version': VERSION,
                        'full_version': FULL_VERSION,
                        'isrelease': str(ISRELEASED),
@@ -101,6 +104,7 @@ def setup_package():
         packages=PACKAGES,
         license=LICENSE,
         install_requires=INSTALL_REQUIRES,
+        extras_require=EXTRAS_REQUIRE,
         keywords=KEYWORDS,
         classifiers= [x for x in CLASSIFIERS if x]
     )
