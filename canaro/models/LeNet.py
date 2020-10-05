@@ -12,7 +12,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 # Importing the necessary packages
 from tensorflow.keras import backend
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Flatten, Dropout, Conv2D, MaxPooling2D
+from tensorflow.keras.layers import Dense, Flatten, Activation, Conv2D, MaxPooling2D
 
 def LeNet(img_size=224, channels=1, output_dim=1):
     """
