@@ -13,7 +13,6 @@ DOWNLOAD_URL = 'https://pypi.org/project/canaro/'
 PACKAGES = find_packages()
 DESCRIPTION = """ A Python library including support for Deep Learning models built using the Keras framework."""
 LONG_DESCRIPTION = io.open('LONG_DESCRIPTION.md', encoding='utf-8').read()
-# CONTRIBUTORS = io.open('CONTRIBUTORS.md', encoding='utf-8').read()
 KEYWORDS = [
     'computer vision', 'deep learning', 'tensorflow', 'keras', 'convolutional neural networks', 'opencv', 'matplotlib'
 ]
