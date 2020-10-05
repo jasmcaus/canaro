@@ -3,7 +3,6 @@
 from setuptools import setup, find_packages
 import io 
 
-# Repository on PyPi.org = https://pypi.org/project/canaro/
 
 VERSION = '1.0.7'
 
