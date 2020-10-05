@@ -18,9 +18,9 @@ from tensorflow.keras.layers import Dense, Flatten, Conv2D, MaxPooling2D, Dropou
 def createSimpsonsModel(IMG_SIZE=(224,224), channels=1, output_dim=1):
     w,h = IMG_SIZE[:2]
     input_shape = (w,h,channels)
-    input = Input(input_shape)
+    input_layer = Input(input_shape)
     
-    model = Conv2D(32, (3, 3), padding='same', input_shape=input_shape, activation='relu', name='input_node')(input)
+    model = Conv2D(32, (3, 3), padding='same', input_shape=input_shape, activation='relu', name='input_node')(input_layer)
     model = Conv2D(32, (3, 3), activation='relu')(model)
     model = MaxPooling2D(pool_size=(2, 2))(model)
     model = Dropout(0.2)(model)
