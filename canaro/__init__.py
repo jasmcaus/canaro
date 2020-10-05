@@ -6,7 +6,7 @@ from ._meta import author as a
 from ._meta import release as r
 from ._meta import contributors as c
 __author__ = a
-__version__ = '1.0.5'
+__version__ = v
 __contributors__ = c
 __license__ = 'MIT License'
 __copyright__ = 'Copyright (c) 2020 Jason Dsouza'
