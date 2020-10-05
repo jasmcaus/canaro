@@ -5,7 +5,7 @@ import io
 
 # Repository on PyPi.org = https://pypi.org/project/canaro/
 
-VERSION = '1.0.1'
+VERSION = '1.0.2'
 
 NAME = 'canaro'
 AUTHOR = 'Jason Dsouza'
@@ -39,12 +39,6 @@ CLASSIFIERS = [
     'Operating System :: Microsoft :: Windows',
     'License :: OSI Approved :: MIT License',
 ]
-EXTRAS_REQUIRE={
-        # 'deep': [
-        #     'canaro>=1.0.0'
-        # ]
-        'canaro': 'canaro>=1.0.0'
-    }
 
 VERSION_PY_TEXT =\
 """
@@ -67,7 +61,7 @@ def get_contributors_list(filename='CONTRIBUTORS'):
     return contr
 
 def write_version(filename='canaro/_meta.py'):
-    print('[INFO] Writing version.py')
+    print('[INFO] Writing _meta.py')
     TEXT = VERSION_PY_TEXT
     FULL_VERSION = VERSION
     ISRELEASED = True
@@ -104,10 +98,9 @@ def setup_package():
             'Documentation': URL + '/blob/master/DOCS.md',
             'Source Code': URL,
         },
-        packages=PACKAGES,
+        packages=find_packages(),
         license=LICENSE,
         install_requires=INSTALL_REQUIRES,
-        extras_require=EXTRAS_REQUIRE,
         keywords=KEYWORDS,
         classifiers= [x for x in CLASSIFIERS if x]
     )
