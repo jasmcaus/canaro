@@ -29,7 +29,7 @@ def VGG16(IMG_SIZE=224, channels=1, output_dim=1):
     if backend.image_data_format() == 'channels_first':
         input_shape = (channels, IMG_SIZE,IMG_SIZE)
     
-# Block 1
+    # Block 1
     model.add(Conv2D(64, (3, 3), activation='relu', padding='same', name='block1_conv1')(
             input_shape))
     model.add(Conv2D(64, (3, 3), activation='relu', padding='same', name='block1_conv2'))
