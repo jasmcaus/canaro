@@ -5,7 +5,7 @@ import io
 
 # Repository on PyPi.org = https://pypi.org/project/canaro/
 
-VERSION = '1.0.2'
+VERSION = '1.0.7'
 
 NAME = 'canaro'
 AUTHOR = 'Jason Dsouza'
@@ -15,15 +15,15 @@ LICENSE = 'MIT'
 URL = 'https://github.com/jasmcaus/canaro'
 DOWNLOAD_URL = 'https://pypi.org/project/canaro/'
 PACKAGES = find_packages()
+DESCRIPTION = """ A Python library including support for Deep Learning models built using the Keras framework."""
+LONG_DESCRIPTION = io.open('LONG_DESCRIPTION.md', encoding='utf-8').read()
+# CONTRIBUTORS = io.open('CONTRIBUTORS.md', encoding='utf-8').read()
 KEYWORDS = [
     'computer vision', 'deep learning', 'tensorflow', 'keras', 'convolutional neural networks', 'opencv', 'matplotlib'
 ]
 INSTALL_REQUIRES = [
     'tensorflow'
 ]
-DESCRIPTION = """ A Python library including support for Deep Learning models built using the Keras framework."""
-LONG_DESCRIPTION = io.open('LONG_DESCRIPTION.md', encoding='utf-8').read()
-# CONTRIBUTORS = io.open('CONTRIBUTORS.md', encoding='utf-8').read()
 CLASSIFIERS = [
     'Development Status :: 3 - Alpha',
     'Intended Audience :: Developers',
@@ -98,7 +98,7 @@ def setup_package():
             'Documentation': URL + '/blob/master/DOCS.md',
             'Source Code': URL,
         },
-        packages=find_packages(),
+        packages=PACKAGES,
         license=LICENSE,
         install_requires=INSTALL_REQUIRES,
         keywords=KEYWORDS,
