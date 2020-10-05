@@ -8,10 +8,10 @@ A Python library including support for Deep Learning models built using the Kera
 To install the current release:
 
 ```shell
-$ pip install caer
+$ pip install canaro
 ```
 
-Optionally, Canaro can also install [caer](https://github.com/jasmcaus/caer) if you install it with `pip install caer[caer]`
+Optionally, Canaro can also install [caer](https://github.com/jasmcaus/caer) if you install it with `pip install canaro[caer]`
 
 ### Installing from Source
 First, clone the repo on your machine and then install with `pip`:
@@ -32,4 +32,4 @@ print(f'Canaro version {canaro.__version__}')
 
 ## License
 
-Caer is released under the [MIT License](https://github.com/jasmcaus/caer/blob/master/LICENSE)
+canaro is released under the [MIT License](https://github.com/jasmcaus/canaro/blob/master/LICENSE)
