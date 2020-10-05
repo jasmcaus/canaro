@@ -1,5 +1,5 @@
-# # Author: Jason Dsouza
-# # Github: http://www.github.com/jasmcaus
+# Copyright (c) 2020 Jason Dsouza <jasmcaus@gmail.com>
+# Protected under the MIT License (see LICENSE)
 
 # Surpressing Tensorflow Warnings
 import os
@@ -11,7 +11,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Dense, Flatten, Conv2D, MaxPooling2D, Dropout, Input
-from tensorflow.keras.optimizers import SGD
+# from tensorflow.keras.optimizers import SGD
 
 
 # def createSimpsonsModel(IMG_SIZE=(224,224), channels=1, output_dim=1, loss='binary_crossentropy', decay=None, learning_rate=None, momentum=None, nesterov=None):
