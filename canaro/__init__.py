@@ -14,6 +14,12 @@ version = v
 release = r
 contributors = c
 
+from .models import *
+
+from .generators import * 
+
+from .utils import * 
+
 from .model import saveModel
 from .model import testModel
 
