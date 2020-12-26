@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import io 
 
-VERSION = '1.0.8'
+VERSION = '1.0.9'
 
 NAME = 'canaro'
 AUTHOR = 'Jason Dsouza'
@@ -17,7 +17,8 @@ KEYWORDS = [
     'computer vision', 'deep learning', 'tensorflow', 'keras', 'convolutional neural networks', 'opencv', 'matplotlib'
 ]
 INSTALL_REQUIRES = [
-    'tensorflow'
+    'tensorflow', 
+    'caer'
 ]
 EXTRAS_REQUIRE = {
     'caer' : 'caer'
