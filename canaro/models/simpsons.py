@@ -49,8 +49,9 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 # Importing the necessary packages
 # from tensorflow.keras import backend
+import tensorflow
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Flatten, Dropout, Activation, Conv2D, MaxPooling2D
+from tensorflow.keras.layers import Dense, Flatten, Dropout, Conv2D, MaxPooling2D
 from tensorflow.keras.optimizers import SGD
 
 # IMG_SIZE = (80,80)
@@ -115,7 +116,7 @@ def createSimpsonsModel(IMG_SIZE=(224,224), channels=1, output_dim=1, loss='bina
     # Output Layer
     model.add(Dense(output_dim, activation='softmax'))
 
-    optimizer = tensorflow.keras.optimizers.SGD(lr=learning_rate, decay=decay, momentum=momentum, nesterov=nesterov)
+    optimizer = SGD(lr=learning_rate, decay=decay, momentum=momentum, nesterov=nesterov)
 
     model.compile(loss=loss, optimizer=optimizer, metrics=['accuracy'])
     return model
