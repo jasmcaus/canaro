@@ -49,7 +49,6 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 # Importing the necessary packages
 # from tensorflow.keras import backend
-import tensorflow
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Flatten, Dropout, Conv2D, MaxPooling2D
 from tensorflow.keras.optimizers import SGD
