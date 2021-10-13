@@ -115,7 +115,7 @@ def createSimpsonsModel(IMG_SIZE=(224,224), channels=1, output_dim=1, loss='bina
     # Output Layer
     model.add(Dense(output_dim, activation='softmax'))
 
-    optimizer = SGD(lr=learning_rate, decay=decay, momentum=momentum, nesterov=nesterov)
+    optimizer = SGD(learning_rate=learning_rate, decay=decay, momentum=momentum, nesterov=nesterov)
 
     model.compile(loss=loss, optimizer=optimizer, metrics=['accuracy'])
     return model
